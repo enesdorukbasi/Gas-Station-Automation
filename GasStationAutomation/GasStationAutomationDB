@@ -1,0 +1,52 @@
+CREATE TABLE dbo_MarketProducts(
+Id INT GENERATED ALWAYS AS IDENTITY,
+Name VARCHAR(50),
+Number INT,
+Price FLOAT,
+PRIMARY KEY(Id)
+)
+
+CREATE TABLE dbo_FuelTank(
+Id INT GENERATED ALWAYS AS IDENTITY,
+Name VARCHAR(50),
+PriceL FLOAT,
+Fullness FLOAT,
+PRIMARY KEY(Id)
+)
+
+CREATE TABLE dbo_FuelDelivered(
+Id INT GENERATED ALWAYS AS IDENTITY,
+LicensePlate VARCHAR(50),
+FuelTypeId INT,
+Liter FLOAT,
+TotalPrice FLOAT,
+DateOf DATE,
+TimeOf TIME,
+PRIMARY KEY(Id),
+CONSTRAINT fk_FuelTypeId
+      FOREIGN KEY(FuelTypeId) 
+	  REFERENCES dbo_FuelTank(Id)
+	  ON DELETE CASCADE
+)
+
+CREATE TABLE dbo_MarketSales(
+Id INT GENERATED ALWAYS AS IDENTITY,
+ProductId INT,
+Number INT,
+Price FLOAT,
+PRIMARY KEY(Id),
+CONSTRAINT fk_ProductId
+      FOREIGN KEY(ProductId) 
+	  REFERENCES dbo_MarketProducts(Id)
+	  ON DELETE CASCADE
+)
+
+INSERT INTO dbo_FuelTank(Name,PriceL,Capacity,Fullness) VALUES ('Gasoline',15,20000,10000)
+INSERT INTO dbo_FuelTank(Name,PriceL,Capacity,Fullness) VALUES ('Gas',10,20000,10000)
+INSERT INTO dbo_FuelTank(Name,PriceL,Capacity,Fullness) VALUES ('Diesel',13,20000,10000)
+
+SELECT * FROM dbo_fueltank
+SELECT * FROM dbo_fueldelivered
+
+drop table dbo_fueltank
+drop table dbo_fueldelivered
